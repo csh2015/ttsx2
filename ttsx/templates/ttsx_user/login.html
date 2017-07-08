@@ -1,14 +1,59 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-	<title>天天生鲜-登录</title>
-	<link rel="stylesheet" type="text/css" href="css/reset.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-</head>
+{% extends 'base.html' %}
+
+{%block head%}
+<script>
+
+    $(function () {
+        {#   对表单的用户名和密码进行验证     #}
+        $('form').submit(function () {
+           error_name= false;    {# 声明变量  #}
+            error_pwd = true;
+        {#  调用下面两个逻辑的代码   #}
+{#            name_result = $('#user_name').blur();  {#  此种方法返回的不是返回值，而是直接返回元素 #}
+{#            pwd_result = $('#user_pwd').blur();#}
+            $('#user_name').blur();
+            $('#user_pwd').blur();
+            return error_name && error_pwd
+        });
+        {#   用户名失去焦点进行验证     #}
+        $('#user_name').blur(function() {
+            name_len = $(this).val().length;
+            if (name_len < 5 || name_len > 20) {
+                $('.user_error').html('请输入5-20个字符的用户名').show();
+                error_name = false;
+            } else {
+                $('.user_error').html('').hide();
+                error_name = true;
+            }
+        });
+        $('#user_pwd').blur(function() {
+            pwd_len = $(this).val().length;
+            if (pwd_len < 8 || name_len > 20) {
+                $('.pwd_error').html('密码最少8位，最长20位').show();
+                error_pwd = false;
+            } else {
+                $('.pwd_error').html('').hide();
+                error_pwd = true;
+            }
+        });
+
+        {#  将视图函数中进行模板渲染的值传递过来，进行判断用户名和密码是否正确，以此来得出错误信息是否提示出现 #}
+        {#  当视图函数中执行render的时候，error_name和error_pwd就执行了，会将其替换成一个实际的值    #}
+        if('{{ error_name}}'!=''){
+            $('.user_error').html({{ error_name }}).show();
+        }
+        if('{{ error_pwd }}'!=''){
+            $('.pwd_error').html({{ error_pwd }}).show();
+        }
+
+    });
+</script>
+{%endblock head%}
+
+{%block body%}
 <body>
 	<div class="login_top clearfix">
-		<a href="index.html" class="login_logo"><img src="images/logo02.png"></a>	
+		<a href="index.html" class="login_logo"><img src="/static/images/logo02.png"></a>
 	</div>
 
 	<div class="login_form_bg">
@@ -18,16 +63,18 @@
 			<div class="login_form fr">
 				<div class="login_title clearfix">
 					<h1>用户登录</h1>
-					<a href="#">立即注册</a>
+					<a href="/user/register/">立即注册</a>
 				</div>
 				<div class="form_input">
-					<form>
-						<input type="text" name="username" class="name_input" placeholder="请输入用户名">
-						<div class="user_error">输入错误</div>
-						<input type="password" name="pwd" class="pass_input" placeholder="请输入密码">
-						<div class="pwd_error">输入错误</div>
+					<form action="/user/login_handle/" method="post">
+                        {% csrf_token %}
+                        <input type="text" name="user_name" id = "user_name" class="name_input"  value = "{{ uname }}" placeholder="请输入用户名">
+						<div class="user_error"></div>
+						<input type="password" name="user_pwd" id = "user_pwd" class="pass_input" value = "{{ upwd }}" placeholder="请输入密码">
+						<div class="pwd_error"></div>
 						<div class="more_input clearfix">
-							<input type="checkbox" name="">
+                            {#   input复选框只有被选中的时候才会进行name和value的值传递  ,checked是默认记住用户名#}
+							<input type="checkbox" name="user_jz" value="1" checked = "checked">
 							<label>记住用户名</label>
 							<a href="#">忘记密码</a>
 						</div>
@@ -38,19 +85,4 @@
 		</div>
 	</div>
 
-	<div class="footer no-mp">
-		<div class="foot_link">
-			<a href="#">关于我们</a>
-			<span>|</span>
-			<a href="#">联系我们</a>
-			<span>|</span>
-			<a href="#">招聘人才</a>
-			<span>|</span>
-			<a href="#">友情链接</a>		
-		</div>
-		<p>CopyRight © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
-		<p>电话：010-****888    京ICP备*******8号</p>
-	</div>
-	
-</body>
-</html>
+{%endblock body%}
