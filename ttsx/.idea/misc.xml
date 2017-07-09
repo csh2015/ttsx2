@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-<<<<<<< HEAD
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 2.7.12 (/usr/bin/python2.7)" project-jdk-type="Python SDK" />
-=======
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 2.7.12 virtualenv at ~/.virtualenvs/pytest2" project-jdk-type="Python SDK" />
->>>>>>> 58bcfaa304839be5bc9eb650b8069e4df2ed788c
 </project>
