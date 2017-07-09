@@ -41,24 +41,26 @@ def register_handle(request):
 
         return redirect('/user/login/')    # 注册完成之后，页面自动跳转到登陆页面
 
-#接收用户名
+
+# 接收用户名
 def register_valid(request):
     # 接收用户名
     uname = request.get.GET.get('uname')
     # 查询当前用户的个数
     data = UserInfo.objects.filter(uname=uname).count()
-    #返回json{‘valid’:1或0}
+    # 返回json{‘valid’:1或0}
     context ={'valid':data}
     return JsonResponse(context)    # 给回调函数传值为valid
 
 
 # d登陆页面
 def login(request):
-    #从页面当中取出在login_handle中保存的cookie值
+    # 从页面当中取出在login_handle中保存的cookie值
     uname = request.COOKIES.get('uname','')  # 默认值为空字符串，为了防止没有输入用户名时显示None
 
     context={'title':'登陆','uname':uname,'top':'0'}
     return render(request,'ttsx_user/login.html',context)
+
 
 # 上传登陆信息
 def login_handle(request):
