@@ -4,6 +4,7 @@ from models import UserInfo
 from hashlib import sha1
 from django.http import JsonResponse
 import datetime
+import user_decorators
 
 # Create your views here.
 
@@ -88,8 +89,9 @@ def login_handle(request):
         if result[0].upwd == upwd_sha1:
             #登陆成功
             # 因为redict 是HttpResponseRedict的简写，所以HttpResponse有这个子类，所以直接redict可以返回一个response对象
-            response =  redirect('/user/')
+            response =  redirect(request.session['url_path'])  #登陆成功之后跳转到自定义页面
             request.session['uid'] = result[0].id   #result[0].id是从数据库中查到的用户id,用session保存用户的id用于后面用户中心获得用户信息
+            request.session['uname'] = result[0].uname    # 将用户名存储在session中，用于模板中显示时调用
             # 记住用户名，因为用户名不属于保密信息，所以可以用cookie存储在浏览器中
             if ujz =='1':     #所有从请求报文中接受的对象都是字符串
                 response.set_cookie('uname',uname,expires=datetime.datetime.now()+ datetime.timedelta(days=14))     #可以调用response的set_cookie方法，值可以在每个用户的浏览器中去存储
@@ -101,17 +103,22 @@ def login_handle(request):
             context['error_pwd'] = '密码错误'      # 视图向模板中传递的变量，可以在模板中进行判断
             return render(request,'ttsx_user/login.html',context)    # 当密码错误时，返回的提示
 
-
+# 退出就是清除session
+def logout(request):
+    request.session.flush()
+    return redirect('/user/login/')    # 退出转向到登陆页面
 
 # 以下三个视图需要登陆验证，此处应该使用装饰器来进行验证
 
 # 用户中心
+@user_decorators.user_islogin
 def center(request):
     user = UserInfo.objects.get(pk = request.session['uid'])
     context = {'user':user}
     return render(request,'ttsx_user/center.html',context)
 
 # 订单页面
+@user_decorators.user_islogin
 def order(request):
     context = {}
     return render(request, 'ttsx_user/order.html', context)
@@ -120,6 +127,7 @@ def order(request):
 # 此视图函数用于两种功能：
 # 第一种是页面跳转到收货信息页面时，通过get方法来获得用户信息，来进行收货信息的呈现，当没有填写收货信息时，则都为空
 # 第二种是通过post方法，来获得表单提交的数据，保存于对应用户的数据库中
+@user_decorators.user_islogin
 def site(request):
     user = UserInfo.objects.get(pk = request.session['uid'])     # 创建user对象，获得用户信息
 

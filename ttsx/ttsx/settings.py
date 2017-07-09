@@ -50,6 +50,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'ttsx_user.middleware.UrlPathMiddleware',  # 注册中间件用来获取自定义跳转的url值
 )
 
 ROOT_URLCONF = 'ttsx.urls'
