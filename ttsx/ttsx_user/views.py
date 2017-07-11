@@ -47,6 +47,8 @@ def register_handle(request):
 def register_valid(request):
     # 接收用户名
     uname = request.get.GET.get('uname')
+    #js当中用post请求接收验证之后，此处也需要修改接收数据的方式
+    # uname = request.get.POST.get('uname')
     # 查询当前用户的个数
     data = UserInfo.objects.filter(uname=uname).count()
     # 返回json{‘valid’:1或0}
@@ -88,8 +90,8 @@ def login_handle(request):
     else:
         if result[0].upwd == upwd_sha1:
             #登陆成功
-            # 因为redict 是HttpResponseRedict的简写，所以HttpResponse有这个子类，所以直接redict可以返回一个response对象
-            response =  redirect(request.session['url_path'])  #登陆成功之后跳转到自定义页面
+            # 因为redirect 是HttpResponseRedict的简写，所以HttpResponse有这个子类，所以直接redirect可以返回一个response对象
+            response =  redirect(request.session.get('url_path','/'))  #登陆成功之后跳转到自定义页面,什么都不写的话进入到首页
             request.session['uid'] = result[0].id   #result[0].id是从数据库中查到的用户id,用session保存用户的id用于后面用户中心获得用户信息
             request.session['uname'] = result[0].uname    # 将用户名存储在session中，用于模板中显示时调用
             # 记住用户名，因为用户名不属于保密信息，所以可以用cookie存储在浏览器中

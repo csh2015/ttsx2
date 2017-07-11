@@ -39,6 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ttsx_user',
+    'ttsx_goods',   # 添加
+    'tinymce',   #添加富文本应用
 )
 
 MIDDLEWARE_CLASSES = (
@@ -108,3 +110,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS =[os.path.join(BASE_DIR,'static')]    # 静态文件的存储路径
+
+MEDIA_ROOT=os.path.join(BASE_DIR,'static')   # 商品图片存放地址
+
+# 富文本编辑器配置
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'advanced',
+    'width': 600,
+    'height': 400,
+}

@@ -46,7 +46,24 @@ $(function(){
 			error_name = true;
 		}
 		else
-		{     //对传入的用户名进行校验，ajax请求               //参数                 //回调函数
+		{
+			//用post请求来接受验证
+		// 	$.post('/user/register_valid/',
+		// 		{'uname':$('#user_name').val(),'csrfmiddlewaretoken':$('input:first').val()},
+		// 		function (data) {
+		// 			if(data.valid>=1){
+		// 				//用户名不可用
+		// 				$('#user_name').next().html('用户名已经存在').show();
+		// 				error_name = true;
+		// 			}else{
+		// 				//用户名可用
+		// 				$('#user_name').next().hide();
+		// 				error_name = false;
+		// 			}
+         //    });
+
+
+			//对传入的用户名进行校验，ajax请求               //参数                 //回调函数
 			$.get('/user/register_valid/',{'uname':$('#user_name').val()},function (data) {    //当同一个用户
 				if(data.valid>=1){
 					//用户名不可用

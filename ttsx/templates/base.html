@@ -15,11 +15,8 @@
 		<div class="header">
 			<div class="welcome fl">欢迎来到天天生鲜!</div>
 			<div class="fr">
-                {#  次处是验证是否有登陆成功，如果登陆成功，则会讲uid传过来进行验证，并且request对象能在模板当中被访问到   #}
-                {#  session是request对象的属性，用.uid 来提取键值#}
 				{%if request.session.uid%}
 				<div class="login_btn fl">
-                    {#  在视图中存储的uname在此处使用#}
 					欢迎您：<em>{{request.session.uname}}</em>
 					<span>|</span>
 					<a href="/user/logout/">退出</a>
@@ -42,7 +39,8 @@
 			</div>
 		</div>
 	</div>
-
+    {# 此处判断是为了让其中的几个页面有购物车视图   #}
+    {% if cart_show|default:'0' == '0'%}
 	<div class="search_bar clearfix">
 		<a href="../index.html" class="logo fl"><img src="/static/images/logo.png"></a>
 		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
@@ -52,18 +50,19 @@
 		</div>
 	</div>
 
-
-	<!--<div class="search_bar clearfix">-->
-		<!--<a href="index.html" class="logo fl"><img src="images/logo.png"></a>-->
-		<!--<div class="search_con fl">-->
-			<!--<input type="text" class="input_text fl" name="" placeholder="搜索商品">-->
-			<!--<input type="button" class="input_btn fr" name="" value="搜索">-->
-		<!--</div>-->
-		<!--<div class="guest_cart fr">-->
-			<!--<a href="#" class="cart_name fl">我的购物车</a>-->
-			<!--<div class="goods_count fl" id="show_count">1</div>-->
-		<!--</div>-->
-	<!--</div>-->
+    {% else %}
+	<div class="search_bar clearfix">
+		<a href="/" class="logo fl"><img src="/static/images/logo.png"></a>
+		<div class="search_con fl">
+        <input type="text" class="input_text fl" name="" placeholder="搜索商品">
+			 <input type="button" class="input_btn fr" name="" value="搜索">
+		</div>
+		<div class="guest_cart fr">
+			<a href="#" class="cart_name fl">我的购物车</a>
+			<div class="goods_count fl" id="show_count">1</div>
+		</div>
+	</div>
+    {% endif %}
 {%endif%}
 
 {%block body%}{%endblock body%}

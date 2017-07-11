@@ -9,6 +9,8 @@ class UrlPathMiddleware:
                         '/user/login_handle/',
                         '/user/logout/',]:
             request.session['url_path']=request.get_full_path()
+        # else:
+        #     request.session['url_path'] = '/user/login/'
 
 '''
 http://www.itcast.cn/python?a=100

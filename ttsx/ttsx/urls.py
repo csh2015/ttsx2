@@ -1,3 +1,4 @@
+# coding=utf-8
 """ttsx URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -19,4 +20,7 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^user/',include('ttsx_user.urls')),
+    url(r'^',include('ttsx_goods.urls')),   # 什么都不添的时候就显示首页
+    url(r'^tinymce/',include('tinymce.urls')),
+    # url(r'^',include('ttsx_goods.urls')),
 ]
