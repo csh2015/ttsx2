@@ -38,9 +38,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ttsx_user',
-    'ttsx_goods',   # 添加
+    'ttsx_user',    # 添加用户应用
+    'ttsx_goods',   # 添加商品应用
     'tinymce',   #添加富文本应用
+    'haystack',   #安装全文检索应用
+    'ttsx_cart',  # 创建购物车应用
 )
 
 MIDDLEWARE_CLASSES = (
@@ -119,3 +121,18 @@ TINYMCE_DEFAULT_CONFIG = {
     'width': 600,
     'height': 400,
 }
+
+# 配置全文检索
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        #使用whoosh引擎
+        'ENGINE': 'haystack.backends.whoosh_cn_backend.WhooshEngine',
+        #索引文件路径
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    }
+}
+#当添加、修改、删除数据时，自动生成索引
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+#将搜索到的商品进行分页,以12个为一页
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 12

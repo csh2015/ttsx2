@@ -42,11 +42,14 @@
     {# 此处判断是为了让其中的几个页面有购物车视图   #}
     {% if cart_show|default:'0' == '0'%}
 	<div class="search_bar clearfix">
-		<a href="../index.html" class="logo fl"><img src="/static/images/logo.png"></a>
+		<a href="/" class="logo fl"><img src="/static/images/logo.png"></a>
 		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
 		<div class="search_con fr">
-			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
-			<input type="button" class="input_btn fr" name="" value="搜索">
+            {#  创建form表单用于全文检索#}
+            <form method = "get" action="/search/">
+			<input type="text" class="input_text fl" name="q" placeholder="搜索商品">
+			<input type="submit" class="input_btn fr"  value="搜索">
+            </form>
 		</div>
 	</div>
 
@@ -54,8 +57,10 @@
 	<div class="search_bar clearfix">
 		<a href="/" class="logo fl"><img src="/static/images/logo.png"></a>
 		<div class="search_con fl">
-        <input type="text" class="input_text fl" name="" placeholder="搜索商品">
-			 <input type="button" class="input_btn fr" name="" value="搜索">
+            <form method = "get" action="/search/">
+			<input type="text" class="input_text fl" name="q" placeholder="搜索商品">
+			<input type="submit" class="input_btn fr"  value="搜索">
+            </form>
 		</div>
 		<div class="guest_cart fr">
 			<a href="#" class="cart_name fl">我的购物车</a>

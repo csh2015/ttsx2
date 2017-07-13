@@ -5,6 +5,7 @@ from hashlib import sha1
 from django.http import JsonResponse
 import datetime
 import user_decorators
+from ttsx_goods.models import GoodsInfo
 
 # Create your views here.
 
@@ -115,8 +116,15 @@ def logout(request):
 # 用户中心
 @user_decorators.user_islogin
 def center(request):
+    # 查询当前登陆的用户对象
     user = UserInfo.objects.get(pk = request.session['uid'])
-    context = {'user':user}
+    # 查询最近浏览
+    ids = request.COOKIES.get('goods_ids','').split(',')[:-1]    #此处信息被切分为[1,2,3]
+    glist = []      #此处建立一个列表来存储id号，否则是按照默认升序来存储id号的
+    for id in ids:
+        glist.append(GoodsInfo.objects.get(id = id)) # 查询，在ids的范围内进行过滤，查到之后传递到模板当中
+
+    context = {'user':user,'glist':glist}     #glist传递到模板当中去进行渲染
     return render(request,'ttsx_user/center.html',context)
 
 # 订单页面

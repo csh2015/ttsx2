@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^user/',include('ttsx_user.urls')),
     url(r'^',include('ttsx_goods.urls')),   # 什么都不添的时候就显示首页
     url(r'^tinymce/',include('tinymce.urls')),
-    # url(r'^',include('ttsx_goods.urls')),
+    #url(r'^search/', include('haystack.urls')),   #配置全文检索的url
+    url(r'^cart/',include('ttsx_cart.urls')),
 ]

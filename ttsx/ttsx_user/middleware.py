@@ -1,6 +1,6 @@
 #coding=utf-8
 class UrlPathMiddleware:
-    def process_request(self,request):
+    def process_view(self,request,view_func,view_arges,view_kwarges):
         #如果当前请求的路径与用户登录、注册相关，则不需要记录
         if request.path not in ['/user/register/',
                         '/user/register_handle/',
