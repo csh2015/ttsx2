@@ -16,6 +16,33 @@
             </li>
             {% endfor %}
         </ul>
+
+        <div class="pagenation">
+                {% if page_obj.has_previous %}
+                    <a href="?q={{ query }}&page=1">首页</a>&nbsp;&nbsp;
+                    {#   此处为向前翻页所需要的索引地址格式,分类对象id_页码                 #}
+				    <a href="?q={{ query }}&page={{ page_obj.number|add:-1 }}"><上一页</a>
+                {% endif %}
+
+
+                    {% for pindex in page_list%}
+                        {% if pindex == page_obj.number %}
+                            <a href="#" class="active">{{ pindex }}</a>
+                        {% else %}
+                             <a href="?q={{ query }}&page={{ pindex }}" >{{ pindex }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+
+
+                {% if page_obj.has_next %}
+                    <a href="?q={{ query }}&page={{ page_obj.number|add:1 }}"><下一页</a>&nbsp;&nbsp;
+                    <a href="?q={{ query }}&page={{ page_obj.paginator.num_pages }}">末页</a>
+
+                {% endif %}
+
+
+			</div>
     </div>
 {% endblock detail %}
 

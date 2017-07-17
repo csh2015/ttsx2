@@ -113,6 +113,12 @@ def logout(request):
 
 # 以下三个视图需要登陆验证，此处应该使用装饰器来进行验证
 
+def islogin(request):
+    result = 0   #默认为0
+    if request.session.has_key('uid'):
+        result = 1  # 如果已经登陆，则返回1
+    return JsonResponse({'islogin':result})  #返回一个字典,用于list.html中ajax中的回调函数的参数data
+
 # 用户中心
 @user_decorators.user_islogin
 def center(request):

@@ -32,7 +32,7 @@ def goods_list(request, tid ,pindex ,orderby):   #三个参数分别为分类.�
     # 查最新的两个分类
     new_list = t1.goodsinfo_set.order_by('-id')[0:2]     # 新品推荐,降序排列
     glist = t1.goodsinfo_set.order_by(orderby_str)    #搜索到的商品,goodsinfo_set通过外键指向t1获得所有的商品
-    paginator = Paginator(glist, 15)   # 创建分页对象，对商品进行分页
+    paginator = Paginator(glist, 10)   # 创建分页对象，对商品进行分页
     # 做页码判断
     pindex1 = int(pindex)
     if pindex1 <= 1:
